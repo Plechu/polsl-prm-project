@@ -220,21 +220,12 @@ void EXTI15_10_IRQHandler(void)
 void TIM6_DAC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
-	HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 	
 	if(bitNumber++ >= 8) {
-		flag = 1;
-		
-		if(flag == 2) {
-			remoteCode = (remoteCode << 1) + 1;
-			flag = 1;
-		} else {
-			remoteCode = remoteCode << 1;
-		}
+		GPIO_PinState value = HAL_GPIO_ReadPin(DIODE_IR_DATA_GPIO_Port, DIODE_IR_DATA_Pin);
+		remoteCode = (remoteCode << 1) | value;
+
 	}
-	
-	HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
-	
 	if(bitNumber == 14) {	
 		HAL_TIM_Base_Stop_IT(&htim6);
 		

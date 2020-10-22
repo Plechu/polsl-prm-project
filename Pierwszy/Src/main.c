@@ -76,11 +76,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if(GPIO_Pin == DIODE_IR_DATA_Pin) {
 		if(bitNumber++ == 1) {
 			HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
-			TIM4->CNT = 0;
+			TIM6->CNT = 0;
 			HAL_TIM_Base_Start_IT(&htim6);
 		}
-		
-		if(flag == 1) flag = 2;
 	}
 }
 /* USER CODE END 0 */
@@ -467,7 +465,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : DIODE_IR_DATA_Pin */
   GPIO_InitStruct.Pin = DIODE_IR_DATA_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(DIODE_IR_DATA_GPIO_Port, &GPIO_InitStruct);
 
