@@ -68,19 +68,8 @@ static void MX_TIM4_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-volatile uint8_t hello = 0;
 volatile uint16_t remoteCode = 0;
 volatile uint8_t flag = 0;
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	if(GPIO_Pin == DIODE_IR_DATA_Pin) {
-		if(bitNumber++ == 1) {
-			HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
-			TIM6->CNT = 0;
-			HAL_TIM_Base_Start_IT(&htim6);
-		}
-	}
-}
 /* USER CODE END 0 */
 
 /**
@@ -121,11 +110,16 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
 	
 	HAL_GPIO_WritePin(STBY_GPIO_Port, STBY_Pin, GPIO_PIN_RESET);
+	
 	HAL_GPIO_WritePin(AIN1_GPIO_Port, AIN1_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(AIN2_GPIO_Port, AIN2_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(AIN2_GPIO_Port, AIN2_Pin, GPIO_PIN_SET);
 	
 	HAL_GPIO_WritePin(BIN1_GPIO_Port, BIN1_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(BIN2_GPIO_Port, BIN2_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(BIN2_GPIO_Port, BIN2_Pin, GPIO_PIN_SET);
+	
+	TIM4->CCR1 = 40000;
+	TIM4->CCR2 = 40000;
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -465,7 +459,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : DIODE_IR_DATA_Pin */
   GPIO_InitStruct.Pin = DIODE_IR_DATA_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(DIODE_IR_DATA_GPIO_Port, &GPIO_InitStruct);
 

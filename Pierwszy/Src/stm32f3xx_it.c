@@ -37,7 +37,22 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+uint32_t getUs(void) {
+    uint32_t usTicks = HAL_RCC_GetSysClockFreq() / 1000000;
+    register uint32_t ms, cycle_cnt;
+    do {
+        ms = HAL_GetTick();
+        cycle_cnt = SysTick->VAL;
+    } while (ms != HAL_GetTick());
+        return (ms * 1000) + (usTicks * 1000 - cycle_cnt) / usTicks;
+}
 
+void delayUs(uint16_t micros) {
+    uint32_t start = getUs();
+    while (getUs()-start < (uint32_t) micros) {
+        __asm("nop");
+    } 
+}
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -52,7 +67,6 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-extern uint8_t hello;
 extern uint16_t remoteCode;
 extern uint8_t bitNumber;
 extern uint8_t flag;
@@ -206,7 +220,13 @@ void SysTick_Handler(void)
 void EXTI15_10_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
-
+		if(bitNumber++ == 0) {
+			delayUs(100);
+			HAL_TIM_Base_Start_IT(&htim6);
+			HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+			TIM6->CNT = 0;
+			remoteCode = (remoteCode << 1 | 1);
+		}
   /* USER CODE END EXTI15_10_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
@@ -220,22 +240,21 @@ void EXTI15_10_IRQHandler(void)
 void TIM6_DAC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
+  bitNumber++;
+	GPIO_PinState value = HAL_GPIO_ReadPin(DIODE_IR_DATA_GPIO_Port, DIODE_IR_DATA_Pin);
+	remoteCode = (remoteCode << 1) | value;
 	
-	if(bitNumber++ >= 8) {
-		GPIO_PinState value = HAL_GPIO_ReadPin(DIODE_IR_DATA_GPIO_Port, DIODE_IR_DATA_Pin);
-		remoteCode = (remoteCode << 1) | value;
-
-	}
-	if(bitNumber == 14) {	
+	if(bitNumber == 15) {
 		HAL_TIM_Base_Stop_IT(&htim6);
-		
-		HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, remoteCode & 1);
-		HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, (remoteCode >> 1) & 1);
-		HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, (remoteCode >> 2) & 1);
-		HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, (remoteCode >> 3) & 1);
-		HAL_GPIO_WritePin(LD7_GPIO_Port, LD7_Pin, (remoteCode >> 4) & 1);
-		HAL_GPIO_WritePin(LD9_GPIO_Port, LD9_Pin, (remoteCode >> 5) & 1);
-		
+		if(remoteCode != 0x7FFF) {
+			HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, remoteCode & 1);
+			HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, (remoteCode >> 1) & 1);
+			HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, (remoteCode >> 2) & 1);
+			HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, (remoteCode >> 3) & 1);
+			HAL_GPIO_WritePin(LD7_GPIO_Port, LD7_Pin, (remoteCode >> 4) & 1);
+			HAL_GPIO_WritePin(LD9_GPIO_Port, LD9_Pin, (remoteCode >> 5) & 1);
+			HAL_GPIO_WritePin(LD9_GPIO_Port, LD9_Pin, (remoteCode >> 12) & 1);
+		}
 		bitNumber = 0;
 		remoteCode = 0;
 		HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
