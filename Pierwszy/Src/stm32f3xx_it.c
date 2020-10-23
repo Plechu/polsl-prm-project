@@ -70,6 +70,12 @@ void delayUs(uint16_t micros) {
 extern uint16_t remoteCode;
 extern uint8_t bitNumber;
 extern uint8_t flag;
+
+extern void setForward(void);
+extern void setBackward(void);
+extern void setTurnLeft(void);
+extern void setTurnRight(void);
+extern void setSpeed(uint8_t speed);
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -244,17 +250,44 @@ void TIM6_DAC_IRQHandler(void)
 	GPIO_PinState value = HAL_GPIO_ReadPin(DIODE_IR_DATA_GPIO_Port, DIODE_IR_DATA_Pin);
 	remoteCode = (remoteCode << 1) | value;
 	
+	uint8_t MASK = 0x3F;
+	uint8_t POWER = 0x19;
+	uint8_t ARROW_UP = 0x1F;
+	uint8_t ARROW_DOWN = 0x1D;
+	uint8_t ARROW_LEFT = 0x15;
+	uint8_t ARROW_RIGHT = 0x13;
+	uint8_t SPEED_RED = 0x29;
+	uint8_t SPEED_GREEN = 0x27;
+	uint8_t SPEED_YELLOW = 0x25;
+	uint8_t SPEED_BLUE = 0x23;
+	
 	if(bitNumber == 15) {
 		HAL_TIM_Base_Stop_IT(&htim6);
+		
 		if(remoteCode != 0x7FFF) {
-			HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, remoteCode & 1);
-			HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, (remoteCode >> 1) & 1);
-			HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, (remoteCode >> 2) & 1);
-			HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, (remoteCode >> 3) & 1);
-			HAL_GPIO_WritePin(LD7_GPIO_Port, LD7_Pin, (remoteCode >> 4) & 1);
-			HAL_GPIO_WritePin(LD9_GPIO_Port, LD9_Pin, (remoteCode >> 5) & 1);
-			HAL_GPIO_WritePin(LD9_GPIO_Port, LD9_Pin, (remoteCode >> 12) & 1);
+			uint8_t command = remoteCode & MASK;
+			
+			if(command == ARROW_UP) {
+				setForward();
+			} else if(command == ARROW_DOWN) {
+				setBackward();
+			} else if(command == ARROW_LEFT) {
+				setTurnLeft();
+			} else if(command == ARROW_RIGHT) {
+				setTurnRight();
+			} else if(command == SPEED_RED) {
+				setSpeed(48);
+			}else if(command == SPEED_GREEN) {
+				setSpeed(128);
+			}else if(command == SPEED_YELLOW) {
+				setSpeed(192);
+			}else if(command == SPEED_BLUE) {
+				setSpeed(240);
+			}else if(command == POWER) {
+					HAL_GPIO_TogglePin(STBY_GPIO_Port, STBY_Pin);
+			}
 		}
+		
 		bitNumber = 0;
 		remoteCode = 0;
 		HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);

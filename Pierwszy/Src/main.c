@@ -37,7 +37,35 @@ volatile uint8_t bitNumber = 0;
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+void setForward() {
+	GPIOC->ODR = (GPIOC->ODR & 0xFFF0);
+	GPIOC->ODR = (GPIOC->ODR & 0xFFF0) | 1 << 1 | 1 << 3;
+}
 
+void setBackward() {
+	GPIOC->ODR = (GPIOC->ODR & 0xFFF0);
+	GPIOC->ODR = (GPIOC->ODR & 0xFFF0) | 1 | 1 << 2;
+}
+
+void setTurnLeft() {
+	GPIOC->ODR = (GPIOC->ODR & 0xFFF0);
+	GPIOC->ODR = (GPIOC->ODR & 0xFFF0) | 1 << 1 | 1 << 2;
+}
+
+void setTurnRight() {
+	GPIOC->ODR = (GPIOC->ODR & 0xFFF0);
+	GPIOC->ODR = (GPIOC->ODR & 0xFFF0) | 1 | 1 << 3;
+}
+
+#define CALIBRATION_LEFT 0.92
+#define CALIBRATION_RIGHT 1
+#define MAX_SPEED 47998
+
+void setSpeed(uint8_t speed) {
+	uint16_t mapSpeed = speed * 47998 / 255;
+	TIM4->CCR1 = mapSpeed * CALIBRATION_LEFT;
+	TIM4->CCR2 = mapSpeed * CALIBRATION_RIGHT;
+}
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -117,8 +145,7 @@ int main(void)
 	HAL_GPIO_WritePin(BIN1_GPIO_Port, BIN1_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(BIN2_GPIO_Port, BIN2_Pin, GPIO_PIN_SET);
 	
-	TIM4->CCR1 = 40000;
-	TIM4->CCR2 = 40000;
+	setSpeed(128);
 	
   /* USER CODE END 2 */
 
