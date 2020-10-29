@@ -290,8 +290,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.c</PathWithFileName>
-      <FilenameWithoutPath>stm32f3xx_hal_i2c.c</FilenameWithoutPath>
+      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c</PathWithFileName>
+      <FilenameWithoutPath>stm32f3xx_hal_tim.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -302,8 +302,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c</PathWithFileName>
-      <FilenameWithoutPath>stm32f3xx_hal_i2c_ex.c</FilenameWithoutPath>
+      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c</PathWithFileName>
+      <FilenameWithoutPath>stm32f3xx_hal_tim_ex.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -434,8 +434,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.c</PathWithFileName>
-      <FilenameWithoutPath>stm32f3xx_hal_exti.c</FilenameWithoutPath>
+      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.c</PathWithFileName>
+      <FilenameWithoutPath>stm32f3xx_hal_i2c.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -446,8 +446,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.c</PathWithFileName>
-      <FilenameWithoutPath>stm32f3xx_hal_spi.c</FilenameWithoutPath>
+      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c</PathWithFileName>
+      <FilenameWithoutPath>stm32f3xx_hal_i2c_ex.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -458,38 +458,14 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c</PathWithFileName>
-      <FilenameWithoutPath>stm32f3xx_hal_spi_ex.c</FilenameWithoutPath>
+      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.c</PathWithFileName>
+      <FilenameWithoutPath>stm32f3xx_hal_exti.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
       <FileNumber>21</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c</PathWithFileName>
-      <FilenameWithoutPath>stm32f3xx_hal_tim.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>3</GroupNumber>
-      <FileNumber>22</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c</PathWithFileName>
-      <FilenameWithoutPath>stm32f3xx_hal_tim_ex.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>3</GroupNumber>
-      <FileNumber>23</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -501,7 +477,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>24</FileNumber>
+      <FileNumber>22</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -521,7 +497,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>4</GroupNumber>
-      <FileNumber>25</FileNumber>
+      <FileNumber>23</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

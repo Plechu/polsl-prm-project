@@ -31,8 +31,6 @@ pierwszy\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_usb.h
 pierwszy\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd_ex.h
 pierwszy\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.h
 pierwszy\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h
-pierwszy\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_spi.h
-pierwszy\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_spi_ex.h
 pierwszy\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h
 pierwszy\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h
 pierwszy\stm32f3xx_it.o: ../Inc/stm32f3xx_it.h

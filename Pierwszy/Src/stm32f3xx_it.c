@@ -32,7 +32,16 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define MASK 0x3F
+#define POWER 0x19
+#define ARROW_UP 0x1F
+#define ARROW_DOWN 0x1D
+#define ARROW_LEFT 0x15
+#define ARROW_RIGHT 0x13
+#define SPEED_RED 0x29
+#define SPEED_GREEN 0x27
+#define SPEED_YELLOW 0x25
+#define SPEED_BLUE 0x23
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -67,9 +76,8 @@ void delayUs(uint16_t micros) {
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-extern uint16_t remoteCode;
-extern uint8_t bitNumber;
-extern uint8_t flag;
+volatile uint16_t remoteCode = 0;
+volatile uint8_t bitNumber = 0;
 
 extern void setForward(void);
 extern void setBackward(void);
@@ -250,41 +258,42 @@ void TIM6_DAC_IRQHandler(void)
 	GPIO_PinState value = HAL_GPIO_ReadPin(DIODE_IR_DATA_GPIO_Port, DIODE_IR_DATA_Pin);
 	remoteCode = (remoteCode << 1) | value;
 	
-	uint8_t MASK = 0x3F;
-	uint8_t POWER = 0x19;
-	uint8_t ARROW_UP = 0x1F;
-	uint8_t ARROW_DOWN = 0x1D;
-	uint8_t ARROW_LEFT = 0x15;
-	uint8_t ARROW_RIGHT = 0x13;
-	uint8_t SPEED_RED = 0x29;
-	uint8_t SPEED_GREEN = 0x27;
-	uint8_t SPEED_YELLOW = 0x25;
-	uint8_t SPEED_BLUE = 0x23;
-	
 	if(bitNumber == 15) {
 		HAL_TIM_Base_Stop_IT(&htim6);
 		
 		if(remoteCode != 0x7FFF) {
 			uint8_t command = remoteCode & MASK;
 			
-			if(command == ARROW_UP) {
-				setForward();
-			} else if(command == ARROW_DOWN) {
-				setBackward();
-			} else if(command == ARROW_LEFT) {
-				setTurnLeft();
-			} else if(command == ARROW_RIGHT) {
-				setTurnRight();
-			} else if(command == SPEED_RED) {
-				setSpeed(48);
-			}else if(command == SPEED_GREEN) {
-				setSpeed(128);
-			}else if(command == SPEED_YELLOW) {
-				setSpeed(192);
-			}else if(command == SPEED_BLUE) {
-				setSpeed(240);
-			}else if(command == POWER) {
+			switch (command) {
+				case ARROW_UP:
+					setForward();
+					break;
+				case ARROW_DOWN:
+					setBackward();
+					break;
+				case ARROW_LEFT:
+					setTurnLeft();
+					break;
+				case ARROW_RIGHT:
+					setTurnRight();
+					break;
+				case SPEED_RED:
+					setSpeed(48);
+					break;
+				case SPEED_GREEN:
+					setSpeed(128);
+					break;
+				case SPEED_YELLOW:
+					setSpeed(192);
+					break;
+				case SPEED_BLUE:
+					setSpeed(240);
+					break;
+				case POWER:
 					HAL_GPIO_TogglePin(STBY_GPIO_Port, STBY_Pin);
+					break;
+				default:
+					break;
 			}
 		}
 		
